@@ -1,0 +1,52 @@
+﻿@model ViewModel.Services.ServiceViewModel
+
+@{
+    ViewBag.Title = "DeleteConfirmed";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var ImagePath = "~/Areas/Admin/wwwroot/ImageService/" + Model.Thumbnail;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Xóa dịch vụ</h1>
+</div>
+
+<div>
+    <hr />
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Id, new { @class = "form-label" }):</b>
+        @Html.DisplayFor(model => model.Id)
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Name, new { @class = "form-label" }):</b>
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Thumbnail, new { @class = "form-label" })</b>
+        <br />
+        <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="@Url.Content(@ImagePath)" />
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Summary, new { @class = "form-label" }):</b>
+        @Html.DisplayFor(model => model.Summary)
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Detail, new { @class = "form-label" })</b>
+        @Html.Raw(Model.Detail)
+    </div>
+
+    @using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Xóa" class="btn btn-outline-primary" />
+        <button class="btn btn-outline-primary">@Html.ActionLink("Quay lại", "Index")</button>
+    </div>
+    }
+</div>

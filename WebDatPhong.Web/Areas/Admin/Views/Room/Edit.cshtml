@@ -1,0 +1,199 @@
+﻿@using ViewModel.Rooms
+@using ViewModel.RoomTypes
+@using ViewModel.Beds
+@using WebDatPhong.Model.Models
+@model RoomViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var ImagePath = "~/Areas/Admin/wwwroot/ImageRoom/" + Model.Image;
+    var convenients = TempData["Convenients"] as List<Convenient>;
+    var roomTypes = TempData["RoomTypes"] as List<RoomType>;
+    var beds = TempData["Beds"] as List<Bed>;
+
+    var oldConvenients = TempData["OldConvenients"] as List<Convenient>;
+    var oldRoomType = TempData["OldRoomType"] as DetailRoomTypeViewModel;
+    var oldBed = TempData["OldBed"] as BedViewModel;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Sửa phòng</h1>
+</div>
+
+<form action="/admin/room/edit" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Id)
+        @Html.DisplayFor(model => model.Id)
+        <input name="Id" type="text" value="@Model.Id" hidden />
+    </div>
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.RoomName, new { @class = "form-label" })</b>
+        @Html.TextBoxFor(x => x.RoomName, new { @class = "form-control" })
+        <br />
+        @Html.ValidationMessageFor(x => x.RoomName, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <b>@Html.LabelFor(x => x.NumberRoom, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.NumberRoom, new { @class = "form-control", @type = "number" })
+            <br />
+            @Html.ValidationMessageFor(x => x.NumberRoom, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="col-6">
+            <b>@Html.LabelFor(x => x.NumberPerson, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.NumberPerson, new { @class = "form-control", @type = "number" })
+            <br />
+            @Html.ValidationMessageFor(x => x.NumberPerson, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <b>@Html.LabelFor(x => x.Area, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.Area, new { @class = "form-control", @type = "number" })
+            <br />
+            @Html.ValidationMessageFor(x => x.Area, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="col-6">
+            <b>@Html.LabelFor(x => x.Cost, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.Cost, new { @class = "form-control", @type = "number" })
+            <br />
+            @Html.ValidationMessageFor(x => x.Cost, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <b>@Html.LabelFor(x => x.BedId, new { @class = "form-label" })</b>
+            <select name="BedId" class="form-control">
+                <option disabled>Chọn loại giường</option>
+                <option value="@oldBed.Id">@oldBed.Name</option>
+                @foreach (var item in beds)
+                {
+                    if (item.Id != oldBed.Id)
+                    {
+                <option value="@item.Id">@item.Name</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="col-6">
+            <b>@Html.LabelFor(x => x.NumberBed, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.NumberBed, new { @class = "form-control", @type = "number" })
+            <br />
+            @Html.ValidationMessageFor(x => x.NumberBed, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })</b>
+
+        <div class="checkbox">
+            @Html.EditorFor(model => model.Status)
+            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.RoomTypeId, new { @class = "form-label" })</b>
+        <select name="RoomTypeId" class="form-control">
+            <option disabled>Chọn loại phòng</option>
+            <option value="@oldRoomType.Id">@oldRoomType.Name</option>
+            @foreach (var item in roomTypes)
+            {
+                if (item.Id != oldRoomType.Id)
+                {
+            <option value="@item.Id">@item.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.Image, new { @class = "form-label" })</b>
+        <div class="col-md-10">
+            <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="@Url.Content(@ImagePath)" />
+            <p><label for="ufile" style="cursor:pointer;">Chọn file ảnh</label><p>
+                <input name="ImageFile" id="ufile" type="file" style="display:none;" onchange="loadFile(event)" />
+                <input type="text" name="Image" value="@Model.Image" id="layAnh" hidden>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <p><b>Danh sách tiện ích</b></p>
+        <div class="row">
+            @foreach (var item in convenients)
+            {
+            <div class="col-3">
+                <input name="convenient" type="checkbox" value="@item.Id" />
+                <label for="convenient">@item.Name</label>
+            </div>
+            }
+        </div>
+        @Html.TextBoxFor(x => x.Convenients, new { @class = "form-label hidden", @id = "kq", @style = "visibility:hidden" })
+        @*<p id="kq" name="Convenients"></p>*@
+        @*<a class="btn btn-outline-primary" onclick="Test();" id="tienich">
+                <span>Lấy tiện ích</span>
+            </a>*@
+        @foreach (var item in oldConvenients)
+        {
+        <input name="oldConvenient" type="checkbox" value="@item.Id" hidden />
+        }
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.Description, new { @class = "form-label" })</b>
+        @Html.TextAreaFor(x => x.Description, new { @class = "form-control border border-primary bg-body px-1", @id = "ckeContent" })
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-outline-primary" onclick="Test();">Lưu</button>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index","Room")">
+            <span>Trở về</span>
+        </a>
+    </div>
+</form>
+@section Scripts{
+    <script>
+        function Test() {
+            var checkboxes = document.getElementsByName('convenient');
+            var selectedlist = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+
+                    selectedlist.push(checkboxes[i].value);
+                }
+            }
+            var a = "";
+            for (var i = 0; i < selectedlist.length; i++) {
+                a += selectedlist[i] + ";";
+            }
+            document.getElementById('kq').value = a;
+            //alert(a);
+        }
+    </script>
+    <script>CKEDITOR.replace("ckeContent");</script>
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+            document.getElementById('layAnh').value = event.target.files[0].name;
+        };
+    </script>
+    <script>
+        window.onload = function () { oldConvenient() };
+        function oldConvenient() {
+            var checkboxes = document.getElementsByName('convenient');
+            var checkboxOldConvenients = document.getElementsByName('oldConvenient');
+            for (var i = 0; i < checkboxes.length; i++) {
+                for (var j = 0; j < checkboxOldConvenients.length; j++) {
+                    if (checkboxes[i].value == checkboxOldConvenients[j].value) {
+                        checkboxes[i].checked = true;
+                    }
+                }
+            }
+        }
+    </script>
+}

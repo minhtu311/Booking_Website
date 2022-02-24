@@ -1,0 +1,6 @@
+E:\DoAnTotNghiep_PhamMinhTu\WebDatPhong\ViewModel\bin\Debug\ViewModel.dll
+E:\DoAnTotNghiep_PhamMinhTu\WebDatPhong\ViewModel\bin\Debug\ViewModel.pdb
+E:\DoAnTotNghiep_PhamMinhTu\WebDatPhong\ViewModel\obj\Debug\WebDatPhong.ViewModel.csproj.CoreCompileInputs.cache
+E:\DoAnTotNghiep_PhamMinhTu\WebDatPhong\ViewModel\obj\Debug\ViewModel.dll
+E:\DoAnTotNghiep_PhamMinhTu\WebDatPhong\ViewModel\obj\Debug\ViewModel.pdb
+E:\DoAnTotNghiep_PhamMinhTu\WebDatPhong\ViewModel\obj\Debug\WebDatPhong.ViewModel.csproj.AssemblyReference.cache

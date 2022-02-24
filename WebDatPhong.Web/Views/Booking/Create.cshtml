@@ -1,0 +1,97 @@
+﻿@using ViewModel.Rooms
+@model IEnumerable<RoomBookingViewModel>
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var soNgay = ViewBag.CheckOut - ViewBag.CheckIn;
+    string message = ViewBag.Message;
+}
+
+<hr/>
+<div class="container">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Xác nhận thông tin đơn đặt phòng của bạn</h1>
+    </div>
+    @*@Html.ValidationSummary()*@
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-danger">@message</div>
+    }
+
+    <div>
+        <div class="mb-3 row">
+            <div class="col-3">
+                <b>Khách hàng:</b> @ViewBag.CustonmerName
+            </div>
+            <div class="col-4">
+                <b>Số điện thoại: </b> @ViewBag.CustomerPhone
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-3">
+                <b>Ngày đến: </b> @ViewBag.CheckIn.ToString("dd/MM/yyyy")
+            </div>
+            <div class="col-4">
+                <b>Ngày đi: </b> @ViewBag.CheckOut.ToString("dd/MM/yyyy")
+            </div>
+        </div>
+        <div class="mb-3">
+            <b>Số lượng khách hàng: </b> @Session["BookingNumberPerson"]
+        </div>
+        <div class="mb-3">
+            <b>Danh sách phòng </b>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th>
+                        Tên phòng
+                    </th>
+                    <th>
+                        Số lượng
+                    </th>
+                    <th>
+                        Đơn giá
+                    </th>
+                    <th>
+                        Số ngày
+                    </th>
+                    <th>
+                        Tổng tiền
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.RoomName</td>
+                        <td>@item.NumberRoomBooking</td>
+                        <td>@item.CostRoom.ToString("#,##0")</td>
+                        <td>@soNgay.ToString("dd")</td>
+                        <td>@item.Cost.ToString("#,##0")</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" align="center"><b>Tổng giá trị đơn đặt phòng</b></td>
+                    <td>@ViewBag.SumCost.ToString("N0")</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="mb-5">
+        <form action="/Booking/Create" method="post">
+            <div class="form-group mb-3">
+                <b>Ghi chú</b>
+                <textarea class="form-control text-dark" name="Note" rows="10"></textarea>
+            </div>
+            <div class="row">
+                <div class="col-9"></div>
+                <div class="col-3">
+                    <button type="submit" class="btn btn-dark">Đặt phòng</button>
+                    <a class="btn btn-dark" href="@Url.Action("CancelBooking","Booking")">Hủy</a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+

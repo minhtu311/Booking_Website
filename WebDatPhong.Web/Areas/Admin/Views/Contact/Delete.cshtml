@@ -1,0 +1,43 @@
+﻿@model WebDatPhong.Model.Models.Contact
+@{
+    ViewBag.Title = "Chi tiết thư đã xử lý";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Chi tiết thư đã xử lý</h1>
+</div>
+<hr />
+
+<div>
+    <div class="mb-3">
+        <b>Mã thư: </b> @Model.Id
+    </div>
+    <div class="mb-3">
+        <b>Tên khách hàng: </b>@Model.CustomerName
+    </div>
+    <div class="mb-3 row">
+        <div class="col-3"><b>Số điện thoại: </b>@Model.Phone</div>
+        <div class="col-9"><b>Email: </b>@Model.Email</div>
+    </div>
+    <div class="mb-3">
+        <b>Tiêu đề: </b>@Model.Subject
+    </div>
+    <div class="mb-3">
+        <b>Nội dung: </b>@Model.Detail
+    </div>
+
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="number" name="Id" value="@Model.Id" hidden />
+            <input type="submit" value="Xóa" class="btn btn-danger" /> 
+            <button class="btn btn-outline-primary text-white">@Html.ActionLink("Quay lại", "ListConfirmed")</button>
+        }
+    </div>
+</div>
+
+
+

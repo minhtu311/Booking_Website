@@ -1,0 +1,212 @@
+﻿@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var roomTypes = TempData["RoomTypes"] as List<WebDatPhong.Model.Models.RoomType>;
+    var services = TempData["Service"] as List<ViewModel.Services.ServiceViewModel>;
+    var sliders = TempData["Sliders"] as List<ViewModel.Sliders.SliderViewModel>;
+    //var message = TempData["Message"] as string;
+}
+
+@*@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @message
+    </div>
+}*@
+
+
+
+
+<!-- ========== REVOLUTION SLIDER ========== -->
+<div class="slider">
+    <div id="rev-slider-1" class="rev_slider gradient-slider" style="display:none" data-version="5.4.5">
+        <ul>
+            @foreach (var item in sliders)
+            {
+                <!-- SLIDE NR. 1 -->
+                <li data-transition="crossfade">
+                    <!-- MAIN IMAGE -->
+                    @{
+                        string ImagePathSlider = "~/Areas/Admin/wwwroot/ImageSlider/" + item.Image;
+                        <img src="@Url.Content(ImagePathSlider)" alt="Image" title="Image" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina="">
+                    }
+                    <!-- LAYER NR. 1 -->
+                    <h1 class="tp-caption tp-resizeme"
+                        data-x="center"
+                        data-hoffset=""
+                        data-y="320"
+                        data-voffset=""
+                        data-responsive_offset="on"
+                        data-fontsize="['80','50','40','30']"
+                        data-lineheight="['60','50','40','30']"
+                        data-whitespace="nowrap"
+                        data-frames='[{"delay":1000,"speed":1500,"frame":"0","from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+                        style="z-index: 5; color: #fff; font-weight: 900; padding:15px">
+                        @item.Name
+                    </h1>
+                </li>
+            }
+        </ul>
+    </div>
+    <!-- ========== BOOKING FORM ========== -->
+    <div class="horizontal-booking-form">
+        <div class="container">
+            <div class="inner box-shadow-007">
+                <!-- ========== BOOKING NOTIFICATION ========== -->
+                <div id="booking-notification" class="notification"></div>
+                <form action="/Room/SearchRoom" method="get">
+                    <div class="row">
+                        <!-- DATE -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>
+                                    Ngày đến / Ngày đi
+                                    <a href="#" title="Ngày đến / Ngày đi" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Vui lòng chọn ngày đến và ngày đi <br>*Nhận phòng từ 8:00 AM">
+                                        <i class="fa fa-info-circle"></i>
+                                    </a>
+                                </label>
+                                <input type="text" class="datepicker form-control" name="bookingdate" placeholder="Arrival & Departure" readonly="readonly">
+                            </div>
+                        </div>
+                        <!-- GUESTS -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>
+                                        Số người
+                                        <a href="#" title="Số người" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Vui lòng nhập số lượng khách">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                    </label>
+                                    <input class="form-control" name="bookingnumberperson" type="number" data-trigger="hover" placeholder="Số người" min="1" oninvalid="this.setCustomValidity('Số lượng khách hàng không được bỏ trống và phải lớn hơn 0')" oninput="setCustomValidity()">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- BOOKING BUTTON -->
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-book btn-dark">Xem phòng trống</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== ABOUT ========== -->
+<section class="about mt100" style="padding-bottom: 0px">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-title">
+                    <h4 class="text-uppercase">Havana Nha Trang</h4>
+                </div>
+                <div class="info-branding">
+                    <p>
+                        Vị trí Tọa lạc ngay trên con đường Trần Phú với những hàng dừa xanh ngát,
+                        nằm trong 29 vịnh đẹp nhất thế giới, Nha Trang Plaza như là một tuyệt phẩm của thiên nhiên ban tặng,
+                        một điểm nhấn vô cùng thú vị mà con người dành tặng riêng cho nhau,
+                        một điểm dừng chân cho những lúc bạn thấy cần được thư giãn, nghỉ ngơi đôi chút.
+                        Best Western Premier - Havana Nha Trang là khách sạn 5 sao,
+                        được đầu tư theo mô hình khách sạn đa sở hữu.
+                        Với chiều cao 41 tầng, Best Western Premier - Havana Nha Trang là khách sạn cao nhất thành phố biển hiện nay.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="brand-info">
+                    @*<div class="inner">
+                            <div class="content">
+                                <img src="images/logo-big-transparent.svg" width="100" alt="Image">
+                                <div class="stars">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </div>
+                                <h5 class="title">LUXURY HOTEL</h5>
+                                <p class="mt20">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad dolorem iste suscipit voluptates architecto nemo.</p>
+                            </div>
+                        </div>*@
+                    <img src="~/Assets/images/sunrise-nha-trang-beach-hotel-spa-241.jpeg" width="370" alt="Image" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ========== ROOMTYPE ========== -->
+<section class="shop" style="margin-top:0;padding-top: 0px">
+    <div class="container">
+        <div class="section-title">
+            <h4>Loại phòng</h4>
+            <a href="/Room/Index" class="view-all text-dark">Xem tất cả phòng</a>
+        </div>
+        <div class="shop-owl owl-carousel">
+            @foreach (var item in roomTypes)
+            {
+                <!-- ITEM -->
+                <div class="shop-item animated fadeInUp wow" data-wow-offset="30" data-wow-delay=".4s">
+                    <figure class="color-overlay-hover">
+                        <a href="@Url.Action("Index","RoomType",new { Id = item.Id })">
+                            @{
+                                string ImagePathRoomType = "~/Areas/Admin/wwwroot/ImageRoom/" + item.Image;
+                                <img src="@Url.Content(ImagePathRoomType)" class="img-fluid" alt="Image" style="height:200px;">
+                            }
+                        </a>
+                    </figure>
+                    <div class="product-details">
+                        <h4 class="product-title">
+                            <a href="@Url.Action("Index","RoomType",new { Id = item.Id })">@item.Name</a>
+                        </h4>
+                        <div class="product-price">@Html.Raw(item.Detail)</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ========== SERVICES ========== -->
+<section class="services pt-0">
+    <div class="container">
+        <div class="section-title">
+            <h4>Dịch vụ</h4>
+            <a href="/Service/Index" class="view-all text-dark">Xem tất cả dịch vụ</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-7 col-12">
+                <div data-slider-id="services" class="services-owl owl-carousel">
+                    @foreach (var item in services)
+                    {
+                        <figure class="gradient-overlay">
+                            @{
+                                string ImagePathService = "~/Areas/Admin/wwwroot/ImageService/" + item.Thumbnail;
+                                <img src="@Url.Content(ImagePathService)" class="img-fluid" alt="Image" style="height: 430px;">
+                            }
+                            <figcaption>
+                                <h4>@item.Name</h4>
+                            </figcaption>
+                        </figure>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-5 col-12">
+                <div class="owl-thumbs" data-slider-id="services">
+                    @foreach (var item in services)
+                    {
+                        <div class="owl-thumb-item pl-3">
+                            <div class="media-body">
+                                <h5>@item.Name</h5>
+                                <p>@item.Summary</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

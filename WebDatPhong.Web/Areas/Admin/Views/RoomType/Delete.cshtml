@@ -1,0 +1,65 @@
+﻿@model ViewModel.RoomTypes.DetailRoomTypeViewModel
+
+@{
+    ViewBag.Title = "DeleteConfirmed";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var ImagePath = "~/Areas/Admin/wwwroot/ImageRoom/" + Model.Image;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Xóa loại phòng</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="@Url.Content(@ImagePath)" />
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Detail)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Detail)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Xóa" class="btn btn-outline-primary" />
+        <button class="btn btn-outline-primary">@Html.ActionLink("Quay lại", "Index")</button>
+    </div>
+    }
+</div>

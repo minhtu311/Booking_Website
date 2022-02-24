@@ -1,0 +1,50 @@
+﻿@using ViewModel.RoomTypes
+@model CreateRoomTypeViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts{
+    <script>CKEDITOR.replace("ckeContent");</script>
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm mới loại phòng</h1>
+</div>
+@Html.ValidationSummary()
+<form action="/admin/roomtype/create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Name, new { @class = "form-label" })
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        <br />
+        @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Image, new { @class = "form-label" })
+        <div class="col-md-10">
+            <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="~/Areas/Admin/wwwroot/thumbail/h0.png" />
+            <p><label for="ufile" style="cursor:pointer;">Chọn file ảnh</label><p>
+                <input name="ImageFile" id="ufile" type="file" style="display:none;" onchange="loadFile(event)" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Detail, new { @class = "form-label" })
+        @Html.TextAreaFor(x => x.Detail, new { @class = "form-control border border-primary bg-body px-1", @id = "ckeContent" })
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-outline-primary">Tạo mới</button>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index","RoomType")">
+            <span>Trở về</span>
+        </a>
+    </div>
+</form>

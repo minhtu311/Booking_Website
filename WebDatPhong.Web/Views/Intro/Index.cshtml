@@ -1,0 +1,27 @@
+﻿@model WebDatPhong.Model.Models.Intro
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ========== PAGE TITLE ========== -->
+<div class="page-title gradient-overlay op6" style="background: url(@Url.Content("/Assets/images/breadcrumb.jpg")); background-repeat: no-repeat;
+    background-size: cover;">
+    <div class="container">
+        <div class="inner">
+            <h1>Giới thiệu</h1>
+            <ol class="breadcrumb">
+                @*<li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>Rooms</li>*@
+            </ol>
+        </div>
+    </div>
+</div>
+
+<main class="rooms-list-view" style="padding-top:1rem; padding-bottom:1rem;">
+    <div class="container">
+        @Html.Raw(Model.Detail)
+    </div>
+</main>

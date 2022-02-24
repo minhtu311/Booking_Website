@@ -1,0 +1,20 @@
+﻿@model WebDatPhong.Model.Models.Intro
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Quản lý trang giới thiệu</h1>
+</div>
+<hr />
+<div>
+    @Html.Raw(Model.Detail)
+</div>
+<div>
+    <a class="btn btn-outline-primary mb-3" href="@Url.Action("Edit","Intro", new { Id = @Model.Id })">
+        <span>Chỉnh sửa</span>
+    </a>
+</div>
+
+

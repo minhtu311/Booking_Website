@@ -1,0 +1,9 @@
+﻿@using WebDatPhong.Model.Models
+@model IEnumerable<RoomType>
+
+@foreach (var item in Model)
+{
+    <li class="menu-item dropdown">
+        <a href="@Url.Action("Index","RoomType",new { Id = item.Id })">@item.Name</a>
+    </li>
+}

@@ -1,0 +1,109 @@
+﻿@using WebDatPhong.Model.Models
+@model  IEnumerable<Room>
+@{
+    ViewBag.Title = "Danh sách các phòng thuộc loại phòng @ViewBag.RoomTypeName";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ========== PAGE TITLE ========== -->
+<div class="page-title gradient-overlay op6" style="background: url(@Url.Content("/Assets/images/breadcrumb.jpg")); background-repeat: no-repeat;
+    background-size: cover;">
+    <div class="container">
+        <div class="inner">
+            <h1>DANH SÁCH TẤT CẢ CÁC PHÒNG THUỘC LOẠI @ViewBag.RoomTypeName</h1>
+            <ol class="breadcrumb">
+                @*<li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>Rooms</li>*@
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- ========== MAIN ========== -->
+<main class="rooms-list-view">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <div class="sidebar">
+                    <!-- WIDGET -->
+                    <aside class="widget noborder">
+                        <div class="vertical-booking-form border-dark">
+                            <div id="booking-notification" class="notification"></div>
+                            <h3 class="form-title text-dark">Tìm phòng</h3>
+                            <div class="inner">
+                                <form action="/Room/SearchRoom" method="get">
+                                    <!-- NUMBER PERSON -->
+                                    <h6>Số người</h6>
+                                    <div class="form-group">
+                                        <input class="form-control text-dark" name="bookingnumberperson" type="number" placeholder="Nhập số người" min="1" value="@ViewBag.BookingNumberPerson" required>
+                                    </div>
+                                    <!-- DATE -->
+                                    <h6>Ngày đến/Ngày đi</h6>
+                                    <div class="form-group">
+                                        <div class="form_date">
+                                            <input type="text" class="datepicker form-control text-dark" name="bookingdate" placeholder="Chọn ngày đến - ngày đi" readonly="readonly" id="DateBook">
+                                        </div>
+                                    </div>
+                                    <!-- BOOKING BUTTON -->
+                                    <button type="submit" class="btn btn-dark btn-fw mt20 mb20">XEM PHÒNG TRỐNG</button>
+                                </form>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- LIST ROOM -->
+            <div class="col-lg-9 col-12">
+                <!-- ITEM -->
+                @foreach (var item in Model)
+                {
+                    <div class="room-list-item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <figure class="gradient-overlay-hover link-icon">
+                                    @{
+                                        string ImagePathRoomType = "~/Areas/Admin/wwwroot/ImageRoom/" + item.Image;
+                                        <img src="@Url.Content(ImagePathRoomType)" class="img-fluid" alt="Image" style="height:200px;">
+                                    }
+                                    @*<a href="room.html"><img src="~/Areas/Admin/wwwroot/ImageRoom/unnamed.jpg" class="img-fluid" alt="Image"></a>*@
+                                </figure>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="room-info">
+                                    <h3 class="room-title text-dark">
+                                        <a data-toggle="modal" data-target="#@item.Id" style="color:black">@item.RoomName</a>
+                                    </h3>
+                                    <p>Số người tối đa: @item.NumberPerson | Diện tích: @item.Area | @item.Bed.Name: @item.NumberBed<p>
+                                        <h4>Giá phòng:@item.Cost.ToString("N0") VĐN/Đêm</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+@foreach (var item in Model)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@item.RoomName</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderAction("DetailRoom", "Room", new { id = item.Id });}
+                </div>
+            </div>
+        </div>
+    </div>
+}

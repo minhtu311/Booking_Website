@@ -1,0 +1,60 @@
+﻿@using ViewModel.Customers
+@model EditCustomerViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string message = ViewBag.Message;
+    var messageSuccess = TempData["Message"] as string;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Sửa thông tin cá nhân</h1>
+</div>
+<hr />
+@if (!string.IsNullOrEmpty(messageSuccess))
+{
+    <div class="alert alert-success">@messageSuccess</div>
+}
+<form action="/Admin/User/Edit" method="post">
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-danger">@message</div>
+    }
+    <input name="Id" type="text" value="@Model.Id" hidden />
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            @Html.LabelFor(x => x.CustomerName, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", @placeholder = "Tên khách hàng" })
+        </div>
+        @Html.ValidationMessageFor(x => x.CustomerName, null, new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label mr-2" })
+            @Html.RadioButtonFor(model => model.Gender, false) Nam
+            @Html.RadioButtonFor(model => model.Gender, true) Nữ
+        </div>
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            @Html.LabelFor(x => x.Email, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @type = "email", @oninvalid = "this.setCustomValidity('Email có định dạng name@gmail.com')", @oninput = "this.setCustomValidity('')" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            @Html.LabelFor(x => x.Phone, new { @class = "form-label" })
+            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại", @pattern = "[0][0-9]{9}", @oninvalid = "this.setCustomValidity('Nhập sai định dạng số điện thoại')", @oninput = "this.setCustomValidity('')" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Phone, null, new { @class = "text-danger" })
+    </div>
+    <button type="submit" class="btn btn-dark mb-5">
+        <span>Chỉnh sửa</span>
+    </button>
+</form>
+

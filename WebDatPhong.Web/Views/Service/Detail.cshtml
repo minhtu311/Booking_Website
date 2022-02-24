@@ -1,0 +1,43 @@
+﻿@using ViewModel.Services
+@model ServiceViewModel
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ========== PAGE TITLE ========== -->
+<div class="page-title gradient-overlay op6" style="background: url(@Url.Content("/Assets/images/breadcrumb.jpg")); background-repeat: no-repeat;
+    background-size: cover;">
+    <div class="container">
+        <div class="inner">
+            <h1>@Model.Name</h1>
+            <ol class="breadcrumb">
+                @*<li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>Rooms</li>*@
+            </ol>
+        </div>
+    </div>
+</div>
+
+<main class="blog-post border-top" style="padding-top:1rem; padding-bottom:1rem;">
+    <div class="container">
+        <!-- ENTRY -->
+        @*<figure class="post-thumbnail">
+                @{
+                    string ImagePathRoomType = "~/Areas/Admin/wwwroot/ImageService/" + Model.Thumbnail;
+                    <img src="@Url.Content(ImagePathRoomType)" class="img-fluid" alt="Image" style="height:700px; width:1920px">
+                }
+                <img src="images/blog/post/blog-full.jpg" alt="Image">
+            </figure>*@
+        @*<div class="post-details">
+            <h2 class="post-title">
+                <a href="blog-post.html">@Model.Name</a>
+            </h2>
+        </div>*@
+        <div>@Html.Raw(Model.Detail)</div>
+
+    </div>
+</main>
+

@@ -1,0 +1,84 @@
+﻿@using WebDatPhong.Model.Models
+@model PagedList.IPagedList<Contact>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Quản lý thư chưa xử lý</h1>
+</div>
+<hr/>
+
+<div class="row">
+    <div class="col-9">
+        @using (Html.BeginForm())
+        {
+            <p>
+                <b>Tìm thư: </b><input type="text" value="@ViewBag.SearchString" name="searchString" placeholder="Nhập tiêu đề thư..."/>
+                <input type="submit" value="Tìm" class="btn btn-primary" />
+            </p>
+        }
+    </div>
+    <div class="col-3">
+        <p>
+            <a class="btn btn-danger" href="@Url.Action("Index","Contact")">
+                <span>Thư chưa xử lý</span>
+            </a>
+            <a class="btn btn-primary" href="@Url.Action("ListConfirmed","Contact")">
+                <span>Thư đã xử lý</span>
+            </a>
+        </p>
+    </div>
+</div>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Mã thư</th>
+        <th>
+            Tên khách hàng
+        </th>
+        <th>
+            Tiêu đề
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.ActionLink("Chi tiết", "DetailUnconfirmed", new { id = item.Id})
+            </td>
+        </tr>
+    }
+</table>
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, @searchString = @ViewBag.SearchString }))
+
+@section Scripts{
+    <script>
+        window.onload = function () { nutChuyenTrang() };
+        function nutChuyenTrang() {
+            var s = document.getElementsByClassName("pagination");
+            for (var i = 0; i < s.length; i++) {
+                var a = s[i].childNodes;
+                for (var j = 0; j < a.length; j++) {
+                    a[j].className += ' btn btn-secondary text-white';
+                    a[j].firstChild.className += ' text-white'
+                }
+            }
+        }
+    </script>
+}
+

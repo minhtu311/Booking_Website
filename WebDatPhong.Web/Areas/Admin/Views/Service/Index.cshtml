@@ -1,0 +1,80 @@
+﻿@using ViewModel.Services
+@model PagedList.IPagedList<ServiceViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Quản lý dịch vụ</h1>
+</div>
+
+@using (Html.BeginForm())
+{
+<p>
+    Tìm dịch vụ: <input type="text" value="@ViewBag.SearchString" name="searchString" />
+    <input type="submit" value="Tìm" />
+</p>
+}
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>
+            Mã
+        </th>
+        <th>
+            Tên dịch vụ
+        </th>
+        <th>
+            Hình ảnh
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @{
+                    string ImagePath = "~/Areas/Admin/wwwroot/ImageService/" + item.Thumbnail;
+                <img src="@Url.Content(ImagePath)" width="100" class="img-thumbnail" />
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+    }
+</table>
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, @searchString = @ViewBag.SearchString }))
+
+@section Scripts{
+    <script>
+        window.onload = function () { nutChuyenTrang() };
+        function nutChuyenTrang() {
+            var s = document.getElementsByClassName("pagination");
+            for (var i = 0; i < s.length; i++) {
+                var a = s[i].childNodes;
+                for (var j = 0; j < a.length; j++) {
+                    a[j].className += ' btn btn-secondary text-white';
+                    a[j].firstChild.className += ' text-white'
+                }
+            }
+        }
+    </script>
+}

@@ -1,0 +1,43 @@
+﻿@model WebDatPhong.Model.Models.Contact
+@{
+    ViewBag.Title = "Chi tiết thư chưa xử lý";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Chi tiết thư chưa xử lý</h1>
+</div>
+<hr />
+
+<div>
+    <div class="mb-3">
+        <b>Mã thư: </b> @Model.Id
+    </div>
+    <div class="mb-3">
+        <b>Tên khách hàng: </b>@Model.CustomerName
+    </div>
+    <div class="mb-3 row">
+        <div class="col-3"><b>Số điện thoại: </b>@Model.Phone</div>
+        <div class="col-9"><b>Email: </b>@Model.Email</div>
+    </div>
+    <div class="mb-3">
+        <b>Tiêu đề: </b>@Model.Subject
+    </div>
+    <div class="mb-3">
+        <b>Nội dung: </b>@Model.Detail
+    </div>
+
+    <div>
+        <div class="mb-3">
+            <a class="btn btn-success" href="@Url.Action("Confirm","Contact",new {id = Model.Id})">
+                <span>Xử lý</span>
+            </a>
+            <a class="btn btn-primary" href="@Url.Action("Index","Contact")">
+                <span>Trở về</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+

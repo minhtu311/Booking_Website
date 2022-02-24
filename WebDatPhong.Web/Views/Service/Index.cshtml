@@ -1,0 +1,53 @@
+﻿@using ViewModel.Services
+@model PagedList.IPagedList<ServiceViewModel>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- ========== PAGE TITLE ========== -->
+<div class="page-title gradient-overlay op6" style="background: url(@Url.Content("/Assets/images/breadcrumb.jpg")); background-repeat: no-repeat;
+  background-size: cover;">
+    <div class="container">
+        <div class="inner">
+            <h1>Dịch vụ</h1>
+        </div>
+    </div>
+</div>
+
+<main style="padding-bottom:0px; margin-bottom:0px;">
+    <div class="container">
+
+        <!-- POSTS -->
+        <div class="blog-posts">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <!-- ITEM -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="news-grid-item">
+                            <figure class="gradient-overlay-hover link-icon">
+                                @{
+                                    string ImagePathRoomType = "~/Areas/Admin/wwwroot/ImageService/" + item.Thumbnail;
+                                    <img src="@Url.Content(ImagePathRoomType)" class="img-fluid" alt="Image" style="height:250px; width:370px">
+                                }
+                                @*<a href="blog-post.html"><img src="images/blog/blog-post1.jpg" class="img-fluid" alt="Image"></a>*@
+                            </figure>
+                            <div class="news-info">
+                                <h4 class="title">
+                                    <a href="@Url.Action("Detail","Service",new { Id = item.Id })">@item.Name</a>
+                                </h4>
+                                <p>@item.Summary</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+        </div>
+    </div>
+</main>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("BookingClient", new { page, @searchString = @ViewBag.SearchString }))
+</div>

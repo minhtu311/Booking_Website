@@ -1,0 +1,77 @@
+﻿@using ViewModel.Customers
+@model LoginViewModel
+@{ Layout = null;
+    string message = ViewBag.Message;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    @*<link href="~/Areas/Admin/Assets/img/logo/logo.png" rel="icon">*@
+    <title>Đăng nhập hệ thống quản lý</title>
+    <link href="~/Areas/Admin/Assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Areas/Admin/Assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Areas/Admin/Assets/css/ruang-admin.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-login">
+    <!-- Login Content -->
+    <div class="container-login">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-12 col-md-9">
+                <div class="card shadow-sm my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="login-form">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Đăng nhập hệ thống quản lý khách sạn</h1>
+                                    </div>
+                                    <form action="/Admin/User/Login" method="post">
+                                        @if (!string.IsNullOrEmpty(message))
+                                        {
+                                            <div class="alert alert-danger">@message</div>
+                                        }
+                                        <div class="mb-3">
+                                            <div class="form-holder ">
+                                                <span class="lnr lnr-user">Tên đăng nhập</span>
+                                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Username" })
+                                            </div>
+                                            @Html.ValidationMessageFor(x => x.UserName, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="form-holder ">
+                                                <span class="lnr lnr-lock">Mật khẩu</span>
+                                                @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Password", @type = "password" })
+                                            </div>
+                                            @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <span>Đăng nhập</span>
+                                        </button>
+                                    </form>
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login Content -->
+    <script src="~/Areas/Admin/Assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/ruang-admin.min.js"></script>
+</body>
+
+</html>

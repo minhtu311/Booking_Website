@@ -1,0 +1,93 @@
+﻿@model ViewModel.Users.UserViewModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string message = ViewBag.Message;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Xóa tài khoản</h1>
+</div>
+
+<div>
+    <hr />
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-danger">@message</div>
+    }
+    <div class="row">
+        <div class="col-4">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Id)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </dt>
+
+                <dd>
+                    @(Model.Gender ? "Nữ" : "Nam")
+                </dd>
+            </dl>
+        </div>
+        <div class="col-8">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Phone)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RoleId)
+                </dt>
+
+                <dd>
+                    @ViewBag.RoleName
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="number" name="Id" value="@Model.Id" hidden/>
+            <input type="submit" value="Xóa" class="btn btn-outline-primary" />
+            <button class="btn btn-outline-primary">@Html.ActionLink("Quay lại", "Index")</button>
+        </div>
+    }
+</div>

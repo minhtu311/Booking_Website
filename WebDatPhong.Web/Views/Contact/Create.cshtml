@@ -1,0 +1,114 @@
+﻿@model ViewModel.Contacts.ContactViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var message = TempData["Message"] as string;
+}
+
+<!-- ========== PAGE TITLE ========== -->
+@*<div class="page-title gradient-overlay op6" style="background: url(@Url.Content("/Assets/images/breadcrumb.jpg")); background-repeat: no-repeat;
+        background-size: cover;">
+        <div class="container">
+            <div class="inner">
+                <h1> </h1>
+                <ol class="breadcrumb">
+                    <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>Rooms</li>
+                </ol>
+            </div>
+        </div>
+    </div>*@
+
+<!-- GOOGLE MAP -->
+<div class="google-map-full border-bottom">
+    <div id="map-canvas">
+        <div style="width:100%">
+            @{
+                var urlEmbed = "https://www.google.com/maps/embed/v1/search?q=" + 12.2138029 + "," + 109.2077198 + "&key=AIzaSyABvNpRJ8m3wGlQGjpEND_Ly7Jj1Ipe1yU";
+            }
+            <iframe style="border:0; width: 100%; min-height: 70vh" loading="lazy" allowfullscreen
+                    src="@urlEmbed">
+            </iframe>
+        </div>
+    </div>
+    <div class="toggle-streetview" id="openStreetView">
+        <i class="fa fa-street-view" aria-hidden="true"></i>
+    </div>
+</div>
+
+
+
+<!-- ========== MAIN ========== -->
+<main class="contact-page" style="padding-top:50px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="alert alert-primary alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        @message
+                    </div>
+                }
+                <div class="section-title">
+                    <h4>LIÊN HỆ</h4>
+                </div>
+                <p>Xin quý khách vui lòng điền đầy đủ và chính xác thông tin để chúng tôi có thể liên hệ lại với quý khách</p>
+                @*@if (!string.IsNullOrEmpty(message))
+                {
+                    <div class="alert alert-success">@message</div>
+                }*@
+                <!-- CONTACT FORM -->
+                <form action="/Contact/Create" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.CustomerName, new { @class = "form-label" })
+                                @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", @placeholder = "Tên khách hàng" })
+                                @Html.ValidationMessageFor(x => x.CustomerName, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Email, new { @class = "form-label" })
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @type = "email" })
+                                @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Subject, new { @class = "form-label" })
+                                @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", @placeholder = "Tiêu đề thư" })
+                                @Html.ValidationMessageFor(x => x.Subject, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Phone, new { @class = "form-label" })
+                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại", @pattern = "[0][0-9]{9}", @oninvalid = "this.setCustomValidity('Nhập sai định dạng số điện thoại')", @oninput = "this.setCustomValidity('')" })
+                                @Html.ValidationMessageFor(x => x.Phone, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Detail, new { @class = "form-label" })
+                                <textarea class="form-control" name="Detail" placeholder="Nội dung"></textarea>
+                                @Html.ValidationMessageFor(x => x.Detail, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn mt30 btn-dark">Gửi thư</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+

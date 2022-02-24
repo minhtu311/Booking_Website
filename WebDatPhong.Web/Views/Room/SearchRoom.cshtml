@@ -1,0 +1,219 @@
+﻿@using ViewModel.Rooms
+@model  IEnumerable<RoomSearchViewModel>
+@{
+    ViewBag.Title = "SearchRoom";
+    var checkIn = TempData["DateIn"];
+    var checkOut = TempData["DateOut"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- ========== PAGE TITLE ========== -->
+<div class="page-title gradient-overlay op6" style="background: url(@Url.Content("/Assets/images/breadcrumb.jpg")); background-repeat: no-repeat; background-size: cover; ">
+    <div class="container">
+        <div class="inner">
+            <h3 class="text-white">DANH SÁCH PHÒNG TRỐNG TỪ NGÀY @ViewBag.DisplayDateIn đến @ViewBag.DisplayDateOut</h3>
+            <ol class="breadcrumb">
+                @*<li>
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li>Rooms</li>*@
+            </ol>
+        </div>
+    </div>
+</div>
+<!-- ========== MAIN ========== -->
+<main class="rooms-list-view">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-12">
+                <div class="sidebar">
+                    <!-- WIDGET -->
+                    <aside class="widget noborder">
+                        <div class="vertical-booking-form border-dark">
+                            <h3 class="form-title text-dark">Tìm phòng</h3>
+                            <div class="inner">
+                                <form action="/Room/SearchRoom" method="get">
+                                    <!-- DATE -->
+                                    <h6>Ngày đến/Ngày đi</h6>
+                                    <div class="form-group">
+                                        <div class="form_date">
+                                            <input type="text" class="datepicker form-control text-dark" name="bookingdate" placeholder="Chọn ngày đến - ngày đi" readonly="readonly" id="DateBook">
+                                        </div>
+                                    </div>
+                                    <!-- SEARCH ROOM BUTTON -->
+                                    <button type="submit" class="btn btn-dark btn-fw mt20 mb20">XEM PHÒNG TRỐNG</button>
+                                </form>
+                            </div>
+                        </div>
+                        <form action="/Room/Cart" method="post">
+                            <div class="vertical-booking-form border-dark mt-3 " style="">
+                                <h3 class="form-title text-dark">Đặt phòng</h3>
+                                <div class="inner">
+                                    <!-- NUMBER PERSON -->
+                                    <h6>Số người</h6>
+                                    <div class="form-group">
+                                        <input class="form-control text-dark" id="NumberPerson" name="bookingnumberperson" type="number" placeholder="Nhập số người" min="1" value="@ViewBag.BookingNumberPerson" required>
+                                    </div>
+                                    <input class="form-control text-dark" id="ListRoomId" name="listRoomId" type="text" required hidden>
+                                    <input class="form-control text-dark" id="ListNumberRoom" name="listNumberRoom" type="text" hidden>
+                                    <input class="form-control text-dark" name="checkIn" type="datetime" value="@checkIn" hidden>
+                                    <input class="form-control text-dark" name="checkOut" type="datetime" value="@checkOut" hidden>
+                                    <!-- BOOKING BUTTON -->
+                                    <button type="submit" class="btn btn-dark btn-fw mt20 mb20" onclick="BookingRoom();">Đặt phòng</button>
+                                </div>
+                            </div>
+                        </form>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- LIST ROOM -->
+            <div class="col-lg-9 col-12">
+                <!-- ITEM -->
+                <script>var arrID = {};</script>
+                @foreach (var item in Model)
+                {
+                    <script>arrID[@item.Id] = @item.NumberPerson;</script>
+                    <div class="room-list-item">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <figure class="gradient-overlay-hover link-icon">
+                                    @{
+                                        string ImagePath = "~/Areas/Admin/wwwroot/ImageRoom/" + item.Image;
+                                        <a href="@Url.Content(ImagePath)"><img src="@Url.Content(ImagePath)" class="img-fluid" alt="Image"></a>
+                                    }
+                                </figure>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="room-info">
+                                    <h3 class="room-title text-dark">
+                                        <a data-toggle="modal" data-target="#@item.Id" style="color:black; cursor:pointer;">@item.RoomName</a>
+                                    </h3>
+                                    Số người ở tối đa: @item.NumberPerson người
+                                    <p>Số phòng còn trống: @item.NumberEmptyRoom<p>
+                                        <h4>Giá phòng:@item.Cost.ToString("N0") VNĐ/Đêm</h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="room-price">
+                                    <b>Số lượng phòng cần đặt</b>
+                                    <select class="form-control numberRoom" onchange="SelectValue(@item.Id);" id="NumberRoom1-@item.Id">
+                                        @for (int i = 0; i <= item.NumberEmptyRoom; i++)
+                                        {
+                                            <option value="@i" class="text-dark">@i</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>
+
+@foreach (var item in Model)
+{
+    <!-- Modal -->
+    <div class="modal fade" id="@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@item.RoomName</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderAction("DetailRoom", "Room", new { id = item.Id });}
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        window.onload = function () { loadSearchDate() };
+        function loadSearchDate() {
+            $('#DateBook').daterangepicker({
+                //singleDatePicker: true,
+                //showDropdowns: true,
+                @*startDate: @checkOut,
+                minDate: @checkIn,*@
+                //startDate: moment().add(5, 'day'),
+                //endDate: moment().add(7, 'day'),
+                startDate: new Date("@checkIn"),
+                endDate: new Date("@checkOut"),
+                minDate: moment(),
+                locale: {
+                    //format: 'YYYY-MM-DD'
+                    format: 'DD-MM-YYYY'
+                }
+            });
+            console.log(arrID);
+            /*alert(moment().add(5, 'day'));*/
+        }
+        var objectX = {};
+        function SelectValue(i) {
+            var selObj = document.getElementById("NumberRoom1-"+i);
+            /*var selValue = selObj.options[selObj.selectedIndex].text;*/
+            console.log(selObj.value);
+            objectX[i] = selObj.value;
+            //var NumberPerson = document.getElementById("NumberPerson");
+            //NumberPerson.setAttribute("max", selObj.value);
+            // Object nay co  key la id phong va value la so luong phong dat cua no
+            console.log(objectX);
+        }
+
+        @*var d = 0;
+        for (var i = 0; i < Object.keys(listPriceBooking).length; i++) {
+            for (var j = 0; j < Object.keys(objectX).length; j++) {
+                if (Object.keys(listPriceBooking)[i] == Object.keys(objectX)[j] && Object.values(objectX)[j] > 0) {
+                    c += Object.values(objectX)[j] * Object.values(listPriceBooking)[i] * Math.round((@checkOut - @checkIn) / (1000 * 60 * 60 * 24));
+                }
+            }
+        }
+        document.getElementById("PriceBooking").innerHTML = d;*@
+
+        function BookingRoom() {
+            var a = "";
+            var b = "";
+            var c = 0;
+            for (var i = 0; i < Object.keys(arrID).length; i++) {
+                for (var j = 0; j < Object.keys(objectX).length; j++) {
+                    if (Object.keys(arrID)[i] == Object.keys(objectX)[j] && Object.values(objectX)[j] > 0) {
+                        c += Object.values(objectX)[j] * Object.values(arrID)[i];
+                    }
+                }
+            }
+            for (var i = 0; i < Object.keys(objectX).length; i++) {
+                if (Object.values(objectX)[i] > 0) {
+                    a += Object.keys(objectX)[i] + ";";
+                    b += Object.values(objectX)[i] + ";";
+                }
+            }
+            var NumberPerson = document.getElementById("NumberPerson");
+            NumberPerson.setAttribute("max", c);
+
+            //if (NumberPerson.value > c) {
+            //    NumberPerson.addEventListener("invalid", function (e) {
+            //        NumberPerson.setCustomValidity('Số lượng phòng đã chọn chỉ chứa được tối đa ' + c + ' khách hàng');//custom validation message for invalid text
+            //    });
+            //}
+
+            //if (NumberPerson.value < 1) {
+            //    NumberPerson.addEventListener("invalid", function (e) {
+            //        NumberPerson.setCustomValidity('Số người ở tối thiểu là 1');//custom validation message for invalid text
+            //    });
+            //}
+
+            document.getElementById("ListRoomId").value = a;
+            if (!a) {
+                alert("Bạn chưa chọn phòng để đặt");
+            }
+            document.getElementById("ListNumberRoom").value = b;
+        }
+
+    </script>
+}

@@ -1,0 +1,206 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Admin</title>
+    <link href="~/Areas/Admin/Assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Areas/Admin/Assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Areas/Admin/Assets/css/ruang-admin.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.Action("Index","Databoard")">
+                <div class="sidebar-brand-icon">
+                    <img src="/Areas/Admin/Assets/img/logo/hotel-icon.png">
+                </div>
+                <div class="sidebar-brand-text mx-3">Admin</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            @if (Session["RoleId"].Equals(1))
+            {
+                <!-- Thống kê -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Databoard")">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Thống kê</span>
+                    </a>
+                </li>
+                <!-- Đơn đặt phòng -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
+                       aria-expanded="true" aria-controls="collapseBootstrap">
+                        <i class="far fa-fw fa-clone"></i>
+                        <span>Đơn đặt phòng</span>
+                    </a>
+                    <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="/Admin/UnconfirmedBooking/Index">Đơn chưa xác nhận</a>
+                            <a class="collapse-item" href="/Admin/ConfirmedBooking/Index">Đơn đã xác nhận</a>
+                            <a class="collapse-item" href="/Admin/CheckInBooking/Index">Đơn đã nhận phòng</a>
+                            <a class="collapse-item" href="/Admin/CancelBooking/Index">Đơn đã hủy</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- Liên hệ -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","Contact")">
+                        <i class="fas fa-fw fa-envelope"></i>
+                        <span>Thư liên hệ</span>
+                    </a>
+                </li>
+            }
+            @if (Session["RoleId"].Equals(2))
+            {
+                <!-- Giới thiệu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","Intro")">
+                        <i class="fas fa-fw fa-sticky-note"></i>
+                        <span>Trang giới thiệu</span>
+                    </a>
+                </li>
+                <!-- Loại phòng -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","RoomType")">
+                        <i class="fas fa-fw fa-cubes"></i>
+                        <span>Loại Phòng</span>
+                    </a>
+                </li>
+                <!-- Phòng -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","Room")">
+                        <i class="fas fa-fw fa-cube"></i>
+                        <span>Phòng</span>
+                    </a>
+                </li>
+                <!-- Loại giường -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Bed")">
+                        <i class="fas fa-fw fa-bed"></i>
+                        <span>Loại giường</span>
+                    </a>
+                </li>
+                <!-- Tiện ích -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="@Url.Action("Index","Convenient")">
+                        <i class="fas fa-fw fa-desktop"></i>
+                        <span>Tiện ích</span>
+                    </a>
+                </li>
+                <!-- Dịch vụ -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Service")">
+                        <i class="fas fa-fw fa-coffee"></i>
+                        <span>Dịch vụ</span>
+                    </a>
+                </li>
+                <!-- Khách hàng -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Customer")">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Khách hàng</span>
+                    </a>
+                </li>
+                <!-- Tài khoản -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","User")">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Tài khoản</span>
+                    </a>
+                </li>
+                <!-- Slider -->
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index","Slider")">
+                        <i class="fas fa-fw fa-file-image"></i>
+                        <span>Slider</span>
+                    </a>
+                </li>
+            }
+        </ul>
+        <!-- Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- TopBar -->
+                <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle" src="~/Areas/Admin/Assets/img/boy.png" style="max-width: 60px">
+                                <span class="ml-2 d-none d-lg-inline text-white small">@Session["Username"]</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Edit", "User", new { id = @Session["UserId"]})">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Thông tin cá nhân
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action("EditPassword", "User", new { id = @Session["UserId"]})">
+                                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đổi mật khẩu
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action("Logout","User")">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Topbar -->
+                <!-- Container Fluid-->
+                <div class="container-fluid" id="container-wrapper">
+                    @RenderBody()
+                </div>
+                <!---Container Fluid-->
+            </div>
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>
+                            copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> - developed by
+                            <b>MinhTu</b>
+                        </span>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+        </div>
+    </div>
+
+    <!-- Scroll to top -->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <script src="~/Areas/Admin/Assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/ruang-admin.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendor/chart.js/Chart.min.js"></script>
+
+    @RenderSection("ThongKe", required: false)
+
+    <script src="~/Areas/Admin/Assets/js/demo/chart-pie-demo.js"></script>
+    @*<script src="~/Areas/Admin/Assets/js/demo/chart-bar-demo.js"></script>*@
+    @*<script src="~/Areas/Admin/Assets/js/demo/chart-area-demo.js"></script>*@
+
+    <script src="~/Areas/Admin/Public/assets/ckeditor/ckeditor.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

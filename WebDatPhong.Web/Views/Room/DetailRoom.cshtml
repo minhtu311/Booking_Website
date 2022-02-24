@@ -1,0 +1,79 @@
+﻿@using ViewModel.Beds
+@model ViewModel.Rooms.RoomViewModel
+
+@{
+    Layout = null;
+    var ImagePath = "~/Areas/Admin/wwwroot/ImageRoom/" + Model.Image;
+    var convenients = TempData["Convenients"] as List<WebDatPhong.Model.Models.Convenient>;
+    var bed = TempData["Bed"] as BedViewModel;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- ROOM SLIDER -->
+            <div class="room-slider">
+                <img class="img-fluid" src="@Url.Content(ImagePath)" alt="Image">
+                <!--<div id="room-main-image" class="owl-carousel image-gallery">-->
+                <!-- ITEM -->
+                <!--<div class="item">
+                        <figure class="gradient-overlay-hover image-icon">
+                            <a href="@Url.Content(ImagePath)">
+                                <img class="img-fluid" src="@Url.Content(ImagePath)" alt="Image" style="width:430px;height:270px;">
+                            </a>
+                        </figure>
+                    </div>
+                </div>
+                <div id="room-thumbs" class="room-thumbs owl-carousel">-->
+                <!-- ITEM -->
+                <!--<div class="item">
+                        <img class="img-fluid" src="@Url.Content(ImagePath)" alt="Image">
+                    </div>
+                </div>-->
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6">
+                    <i class="fa fa-money"></i> : <b>@Model.Cost.ToString("N0") VNĐ/ Đêm</b>
+                </div>
+                <div class="col-sm-6">
+                    <i class="fa fa-stop"></i> : @Model.Area m <sup>2</sup>
+                </div>
+                <div class="col-sm-6">
+                    <i class="fa fa-user"></i> : @Model.NumberPerson
+                </div>
+                <div class="col-sm-6">
+                    <i class="fa fa-bed"></i> : @Model.NumberBed @bed.Name
+                </div>
+            </div>
+            <b>Tiện ích</b>
+            <div class="row">
+                @*<div class="col-sm-4">
+                        <ul class="list-unstyled">
+                            <li>
+                                <i class="fa fa-check"></i>Double Bed
+                            </li>
+                            <li>
+                                <i class="fa fa-check"></i>80 Sq mt
+                            </li>
+                            <li>
+                                <i class="fa fa-check"></i>3 Persons
+                            </li>
+                            <li>
+                                <i class="fa fa-check"></i>Free Internet
+                            </li>
+                        </ul>
+                    </div>*@
+                @foreach (var item in convenients)
+                {
+                <div class="col-sm-6">
+                    <i class="fa fa-check"></i> @item.Name
+                </div>
+                }
+            </div>
+            <b>Mô tả</b>
+            <br />
+            @Html.Raw(Model.Description)
+        </div>
+    </div>
+</div>

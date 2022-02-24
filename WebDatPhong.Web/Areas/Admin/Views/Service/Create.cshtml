@@ -1,0 +1,59 @@
+﻿@using ViewModel.Services
+@model ServiceViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Scripts{
+    <script>CKEDITOR.replace("ckeContent");</script>
+    <script>
+        var loadFile = function (event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm mới dịch vụ</h1>
+</div>
+
+<div class="text-danger">
+    @Html.ValidationSummary()
+</div>
+
+<form action="/admin/service/create" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.Name, new { @class = "form-label" })</b>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+        <br />
+        @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.Thumbnail, new { @class = "form-label" })</b>
+        <div class="col-md-10">
+            <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="~/Areas/Admin/wwwroot/thumbail/h0.png" />
+            <p><label for="ufile" style="cursor:pointer;">Chọn file ảnh</label><p>
+                <input name="ImageFile" id="ufile" type="file" style="display:none;" onchange="loadFile(event)" />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.Summary, new { @class = "form-label" })</b>
+        @Html.TextAreaFor(x => x.Summary, new { @class = "form-control border border-primary bg-body px-1" })
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.Detail, new { @class = "form-label" })</b>
+        @Html.TextAreaFor(x => x.Detail, new { @class = "form-control border border-primary bg-body px-1", @id = "ckeContent" })
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-outline-primary">Tạo mới</button>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index","Service")">
+            <span>Trở về</span>
+        </a>
+    </div>
+</form>

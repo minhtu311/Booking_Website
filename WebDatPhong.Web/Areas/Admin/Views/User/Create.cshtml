@@ -1,0 +1,84 @@
+﻿@model ViewModel.Users.UserViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var roles = TempData["Roles"] as List<WebDatPhong.Model.Models.Role>;
+    string message = ViewBag.Message;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Thêm mới tài khoản</h1>
+</div>
+
+<form action="/Admin/User/Create" method="post">
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-danger">@message</div>
+    }
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-user"></span>
+            <b>@Html.LabelFor(x => x.UserName, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Username", @pattern = "[A-Za-z0-9]+", @oninvalid = "this.setCustomValidity('Username viết liền không dấu')", @oninput = "this.setCustomValidity('')" })
+        </div>
+        @Html.ValidationMessageFor(x => x.UserName, null, new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            <b>@Html.LabelFor(x => x.Password, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Password", @type = "password" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Password, null, new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            <b>@Html.LabelFor(x => x.Name, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Tên người dùng" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Name, null, new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            <b>@Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })</b>
+            @Html.RadioButtonFor(model => model.Gender, false, new { @checked = "checked" }) Nam
+            @Html.RadioButtonFor(model => model.Gender, true) Nữ
+        </div>
+    </div>
+    <div class="mb-3">
+        <b>@Html.LabelFor(x => x.RoleId, new { @class = "form-label" })</b>
+        <select name="RoleId" class="form-control">
+            <option disabled>Chọn quyền hạn</option>
+            @foreach (var item in roles)
+            {
+                <option value="@item.Id">@item.RoleName</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            <b>@Html.LabelFor(x => x.Email, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @type = "email", @oninvalid = "this.setCustomValidity('Email có định dạng name@gmail.com')", @oninput = "this.setCustomValidity('')" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
+    </div>
+    <div class="mb-3">
+        <div class="form-holder ">
+            <span class="lnr lnr-lock"></span>
+            <b>@Html.LabelFor(x => x.Phone, new { @class = "form-label" })</b>
+            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại", @pattern = "[0][0-9]{9}", @oninvalid = "this.setCustomValidity('Nhập sai định dạng số điện thoại')", @oninput = "this.setCustomValidity('')" })
+        </div>
+        @Html.ValidationMessageFor(x => x.Phone, null, new { @class = "text-danger" })
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-outline-primary">Tạo mới</button>
+        <a class="btn btn-outline-primary" href="@Url.Action("Index","User")">
+            <span>Trở về</span>
+        </a>
+    </div>
+</form>
+

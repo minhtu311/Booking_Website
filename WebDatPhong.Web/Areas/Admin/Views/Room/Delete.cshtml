@@ -1,0 +1,106 @@
+﻿@using ViewModel.Rooms
+@using ViewModel.RoomTypes
+@using ViewModel.Beds
+@using WebDatPhong.Model.Models
+@model RoomViewModel
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var ImagePath = "~/Areas/Admin/wwwroot/ImageRoom/" + Model.Image;
+    var oldConvenients = TempData["OldConvenients"] as List<Convenient>;
+    var oldRoomType = TempData["OldRoomType"] as DetailRoomTypeViewModel;
+    var oldBed = TempData["OldBed"] as BedViewModel;
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Xóa phòng</h1>
+</div>
+<div>
+    <hr />
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Id, new { @class = "form-label" }):</b>
+        @Html.DisplayFor(model => model.Id)
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.RoomName, new { @class = "form-label" }):</b>
+        @Html.DisplayFor(model => model.RoomName)
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-3">
+            <b>@Html.LabelFor(model => model.NumberRoom, new { @class = "form-label" }):</b>
+            @Html.DisplayFor(model => model.NumberRoom)
+        </div>
+        <div class="col-3">
+            <b>@Html.LabelFor(model => model.NumberPerson, new { @class = "form-label" }):</b>
+            @Html.DisplayFor(model => model.NumberPerson)
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-3">
+            <b>@Html.LabelFor(model => model.Area, new { @class = "form-label" }):</b>
+            @Html.DisplayFor(model => model.Area)
+        </div>
+        <div class="col-3">
+            <b>@Html.LabelFor(model => model.Cost, new { @class = "form-label" }):</b>
+            @Model.Cost.ToString("#,##0")
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.RoomTypeId, new { @class = "form-label" }):</b>
+        @oldRoomType.Name
+    </div>
+
+    <div class="mb-3 row">
+        <div class="col-3">
+            <b>@Html.LabelFor(model => model.BedId, new { @class = "form-label" }):</b>
+            @oldBed.Name
+        </div>
+        <div class="col-3">
+            <b>@Html.LabelFor(model => model.NumberBed, new { @class = "form-label" }):</b>
+            @Model.NumberBed
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Status, new { @class = "form-label" }):</b>
+        @(Model.Status ? "Kích hoạt" : "Ẩn")
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Image, new { @class = "form-label" })</b>
+        <br />
+        <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="@Url.Content(@ImagePath)" />
+    </div>
+
+    <div class="mb-3">
+        <b>Tiện ích</b>
+        <div class="row">
+            @foreach (var item in oldConvenients)
+            {
+                <div class="col-2">
+                    <label for="convenient"><b>.</b>@item.Name</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <b>@Html.LabelFor(model => model.Description, new { @class = "form-label" })</b>
+        @Html.Raw(Model.Description)
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color mb-3">
+            <input type="submit" value="Xóa" class="btn btn-outline-primary" /> |
+            <button class="btn btn-outline-primary">@Html.ActionLink("Quay lại", "Index")</button>
+        </div>
+    }
+</div>
